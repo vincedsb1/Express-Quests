@@ -1,10 +1,10 @@
 const { database } = require("./database");
 
-  const getMovies = (req, res) => {
+  const getUsers = (req, res) => {
     database
-      .query("SELECT * FROM movies")
-      .then(([movies]) => {
-        res.json(movies);
+      .query("SELECT * FROM users")
+      .then(([users]) => {
+        res.json(users);
       })
       .catch((err) => {
         console.error(err);
@@ -13,13 +13,13 @@ const { database } = require("./database");
   };
 
 
-  const getMovieById = (req, res) => {
+  const getUserById = (req, res) => {
     const id = parseInt(req.params.id);
     database 
-      .query("SELECT * FROM movies WHERE id=?", [id])
-      .then(([movies]) => {
-        if (movies[0] != null) {
-          res.json(movies[0]);
+      .query("SELECT * FROM users WHERE id=?", [id])
+      .then(([users]) => {
+        if (users[0] != null) {
+          res.json(users[0]);
         } else {
           res.status(404).send("Not found");
         }
@@ -31,6 +31,6 @@ const { database } = require("./database");
   };
 
   module.exports = {
-    getMovies,
-    getMovieById,
+    getUsers,
+    getUserById,
   };
