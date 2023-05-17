@@ -1,18 +1,58 @@
+// SHOW LIST + Filter
+
+const getUsers = (req, res) => {
+  const { database } = require("./database");
+  const initialSql = "SELECT * FROM users";
+  const where = [];
+
+  if (req.query.city != null) {
+    where.push({
+      column: "city",
+      value: req.query.city,
+      operator: "=",
+    });
+  }
+  if (req.query.language != null) {
+    where.push({
+      column: "language",
+      value: req.query.language,
+      operator: "=",
+    });
+  }
+
+  database
+    .query(
+      where.reduce(
+        (sql, { column, operator }, index) =>
+          `${sql} ${index === 0 ? "WHERE" : "AND"} ${column} ${operator} ?`,
+        initialSql
+      ),
+      where.map(({ value }) => value)
+    )
+    .then(([users]) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving data from database");
+    });
+};
+
 // SHOW LIST
 
-const { database } = require("./database");
+// const { database } = require("./database");
 
-  const getUsers = (req, res) => {
-    database
-      .query("SELECT * FROM users")
-      .then(([users]) => {
-        res.json(users);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error retrieving data from database");
-      });
-  };
+//   const getUsers = (req, res) => {
+//     database
+//       .query("SELECT * FROM users")
+//       .then(([users]) => {
+//         res.json(users);
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         res.status(500).send("Error retrieving data from database");
+//       });
+//   };
 
 // SHOW BY ID
 
