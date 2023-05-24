@@ -1,7 +1,9 @@
+const database = require("./database").database;
+
 // SHOW LIST + Filter
 
 const getMovies = (req, res) => {
-  const { database } = require("./database");
+  const database = require("./database").database;
   const initialSql = "SELECT * FROM movies";
   const where = [];
 
@@ -68,7 +70,7 @@ const getMovies = (req, res) => {
         }
       })
       .catch((err) => {
-        console.err(err);
+        console.error(err);
         res.status(500).send("Error retrieving data from database");
       });
   };
@@ -76,7 +78,7 @@ const getMovies = (req, res) => {
 // POST
 
   const postMovies = (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     // res.send("Post route is working 🎉");
     const { title, director, year, color, duration } = req.body;
     database

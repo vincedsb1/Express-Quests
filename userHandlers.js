@@ -1,7 +1,9 @@
+const database = require("./database").database;
+
 // SHOW LIST + Filter
 
 const getUsers = (req, res) => {
-  const { database } = require("./database");
+  const database = require("./database").database;
   const initialSql = "SELECT * FROM users";
   const where = [];
 
